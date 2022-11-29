@@ -1,5 +1,7 @@
 const express = require("express");
 const cors = require("cors");
+const db = require("./app/models");
+require('dotenv').config()
 
 const app = express();
 
@@ -15,7 +17,6 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
-const db = require("./app/models");
 db.mongoose
   .connect(db.url, {
     useNewUrlParser: true,
@@ -31,10 +32,10 @@ db.mongoose
 
 // simple route
 app.get("/", (req, res) => {
-  res.json({ message: "Welcome to bezkoder application." });
+  res.json({ message: "Welcome to domiBot application." });
 });
 
-require("./app/routes/turorial.routes")(app);
+require("./app/routes/institution.routes")(app);
 
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
