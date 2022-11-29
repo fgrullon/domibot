@@ -1,12 +1,3 @@
-# Node.js Express & MongoDB: CRUD Rest APIs
+# DomiBot API
 
 
-## Project setup
-```
-npm install
-```
-
-### Run
-```
-node server.js
-```
