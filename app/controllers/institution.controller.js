@@ -1,6 +1,21 @@
 const db = require("../models");
 const Institution = db.institution;
 
+getService = (data, term) => {
+
+  let services  = [];
+  
+  data.map((m) => {
+    for(serv in m.servicios){
+      let str = m.servicios[serv].servicio
+      if(str.toLowerCase().includes(term.toLowerCase())){
+        services.push(m.servicios[serv])
+      }
+    }
+  });
+  return services;
+}
+
 // Retrieve all institutions from the database.
 exports.findAll = (req, res) => {
  
@@ -42,7 +57,6 @@ exports.findMinisterio = (req, res) => {
   
   Institution.find({ ministerio : { $regex: ".*"+ministerio+".*", $options : 'i'}   })
     .then(data => {
-      console.log(data)
       res.send(data);
     })
     .catch(err => {
@@ -61,8 +75,8 @@ exports.services = (req, res) => {
   
   Institution.find({ servicios: { $elemMatch: { servicio: { $regex: ".*"+service+".*", $options : 'i'}  } } })
     .then(data => {
-      console.log(data)
-      res.send(data);
+      console.log(getService(data, service))
+      res.send(getService(data, service));
     })
     .catch(err => {
       res.status(500).send({
