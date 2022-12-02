@@ -50,6 +50,24 @@ exports.findOne = (req, res) => {
     });
 };
 
+exports.getInstitution = (req, res) => {
+  const id = req.body.id;
+    
+  Institution.find({ _id : { $eq: id }  })
+    .then(data => {
+      if (!data)
+        res.status(404).send({ message: "Not found Institution with id " + id });
+      else {
+        res.send(data);
+      }
+    })
+    .catch(err => {
+      res
+        .status(500)
+        .send({ message: "Error retrieving Institution with id=" + id });
+    });
+};
+
 // Find ministerio by name
 
 exports.findMinisterio = (req, res) => {
@@ -72,6 +90,24 @@ exports.findMinisterio = (req, res) => {
 exports.services = (req, res) => {
 
   const service = req.params.service;
+  
+  Institution.find({ servicios: { $elemMatch: { servicio: { $regex: ".*"+service+".*", $options : 'i'}  } } })
+    .then(data => {
+      console.log(getService(data, service))
+      res.send(getService(data, service));
+    })
+    .catch(err => {
+      res.status(500).send({
+        message:
+          err.message || "Some error occurred while retrieving service."
+      });
+    });
+};
+
+
+exports.getService = (req, res) => {
+
+  const service = req.body.service;
   
   Institution.find({ servicios: { $elemMatch: { servicio: { $regex: ".*"+service+".*", $options : 'i'}  } } })
     .then(data => {

@@ -9,11 +9,18 @@ module.exports = app => {
   // Get a institution by name
   router.get("/institution/:id", institution.findOne);
 
-  // Get a institution by name
-  router.post("/institution/:ministerio", institution.findMinisterio);
-
   // Get services
   router.get("/service/:service", institution.services);
+
+  // Get a institution by name
+  router.post("/getAllInstitution", institution.findAll);
+
+  // Get a institution by name
+  router.post("/getInstitution", institution.getInstitution);
+
+  // Get services
+  router.post("/getService", institution.getService);
+
 
   app.use("/api", router);
 };
