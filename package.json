@@ -4,7 +4,7 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start" : "node server.js"
+    "start": "node server.js"
   },
   "keywords": [
     "nodejs",
@@ -16,7 +16,9 @@
   "author": "Frank G",
   "license": "",
   "dependencies": {
+    "actions-on-google": "^3.0.0",
     "cors": "^2.8.5",
+    "dialogflow-fulfillment": "^0.6.1",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
     "mongoose": "^6.4.2"
