@@ -1,4 +1,5 @@
 const db = require("../models");
+const {WebhookClient} = require('dialogflow-fulfillment');
 const Institution = db.institution;
 
 getService = (data, term) => {
@@ -105,19 +106,36 @@ exports.services = (req, res) => {
 };
 
 
-exports.getService = (req, res) => {
+exports.getService = (request, response) => {
 
-  const service = req.body.service;
+  const agent = new WebhookClient({ request, response });
+  console.log('Dialogflow Request headers: ' + JSON.stringify(request.headers));
+  console.log('Dialogflow Request body: ' + JSON.stringify(request.body));
+ 
+  function welcome(agent) {
+    agent.add(`Welcome to my agent! ramon test`);
+  }
+ 
+  function fallback(agent) {
+    agent.add(`I didn't understand`);
+    agent.add(`I'm sorry, can you try again?`);
+  }
   
-  Institution.find({ servicios: { $elemMatch: { servicio: { $regex: ".*"+service+".*", $options : 'i'}  } } })
-    .then(data => {
-      console.log(getService(data, service))
-      res.send(getService(data, service));
-    })
-    .catch(err => {
-      res.status(500).send({
-        message:
-          err.message || "Some error occurred while retrieving service."
-      });
-    });
+   function respPreg(agent) {
+     let entidad = agent.parameters.entidad;
+     let svc = agent.parameters.svcProusuario;
+     let info = agent.parameters.informacion;
+     
+     agent.add(`MI RESP: Entidad: ${entidad} y servicio ${svc} e info ${info}`);     
+  }
+
+
+  let intentMap = new Map();
+  intentMap.set('Default Welcome Intent', welcome);
+  intentMap.set('Default Fallback Intent', fallback);
+  intentMap.set('PregCentral', respPreg);
+  // intentMap.set('your intent name here', yourFunctionHandler);
+  // intentMap.set('your intent name here', googleAssistantHandler);
+  agent.handleRequest(intentMap);
+   
 };
