@@ -13,9 +13,6 @@
     "api",
     "mongodb"
   ],
-  "engines": {
-    "node": "6"
-  },
   "author": "Frank G",
   "license": "",
   "dependencies": {
