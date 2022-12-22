@@ -1,12 +1,11 @@
-# fly.toml file generated for domibotapi on 2022-11-29T08:59:37-04:00
+# fly.toml file generated for domibot on 2022-12-21T19:23:52-04:00
 
-app = "domibotapi"
+app = "domibot"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
 
 [env]
-  PORT = "8080"
 
 [experimental]
   allowed_public_ports = []
